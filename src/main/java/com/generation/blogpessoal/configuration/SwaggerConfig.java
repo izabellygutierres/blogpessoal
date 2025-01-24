@@ -11,56 +11,50 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+
 @Configuration
 public class SwaggerConfig {
 
-    @Bean
-    OpenAPI springBlogPessoalOpenAPI() {
-        return new OpenAPI()
-            .info(new Info()
-                .title("Projeto Blog Pessoal")
-                .description("Projeto Blog Pessoal - Izabelly Gutierres")
-                .version("v0.0.1")
-                .license(new License()
-                    .name("Izabelly Gutierres")
-                    .url("www.linkedin.com/in/izabelly-gutierressilva"))
-                .contact(new Contact()
-                    .name("Izabelly Gutierres Silva")
-                    .url("www.linkedin.com/in/izabelly-gutierressilva")
-                    .email("izabellygutierressilva@gmail.com")))
-            .externalDocs(new ExternalDocumentation()
-                .description("Github")
-                .url("https://github.com/izabellygutierres"));
-    }
-    
-    
-    @Bean
-    OpenApiCustomizer customerGlobalHeaderOpenApiCustomiser() {
-        return openApi -> {
-            // Itera sobre todos os caminhos (endpoints) da API
-            openApi.getPaths().values().forEach(pathItem -> pathItem.readOperations()
-                    // Itera sobre todas as operações (métodos HTTP) de cada caminho
-                    .forEach(operation -> {
-                        ApiResponses apiResponses = operation.getResponses();
+	@Bean
+	OpenAPI springBlogPessoalOpenAPI() {
+		return new OpenAPI()
+				.info(new Info().title("Projeto Blog Pessoal").description("Projeto Blog Pessoal - Izabelly Gutierres")
+						.version("v0.0.1")
+						.license(new License().name("Izabelly Gutierres")
+								.url("www.linkedin.com/in/izabelly-gutierressilva"))
+						.contact(new Contact().name("Izabelly Gutierres Silva")
+								.url("www.linkedin.com/in/izabelly-gutierressilva")
+								.email("izabellygutierressilva@gmail.com")))
+				.externalDocs(
+						new ExternalDocumentation().description("Github").url("https://github.com/izabellygutierres"));
+	}
 
-                        // Adiciona respostas padrão para os códigos de status HTTP comuns
-                        apiResponses.addApiResponse("200", createApiResponse("Sucesso!"));
-                        apiResponses.addApiResponse("201", createApiResponse("Objeto Persistido!"));
-                        apiResponses.addApiResponse("204", createApiResponse("Objeto Excluído!"));
-                        apiResponses.addApiResponse("400", createApiResponse("Erro na Requisição!"));
-                        apiResponses.addApiResponse("401", createApiResponse("Acesso Não Autorizado!"));
-                        apiResponses.addApiResponse("403", createApiResponse("Acesso Proibido!"));
-                        apiResponses.addApiResponse("404", createApiResponse("Objeto Não Encontrado!"));
-                        apiResponses.addApiResponse("500", createApiResponse("Erro na Aplicação!"));
-                    }));
-            
-        };
-        
-       
-        private ApiResponse createApiResponse( String message){
-        	
-            return new ApiResponse().description(message);
-            
-        }
-    }
+	@Bean
+	OpenApiCustomizer customerGlobalHeaderOpenApiCustomiser() {
+
+		return openApi -> {
+
+			openApi.getPaths().values().forEach(pathItem -> pathItem.readOperations().forEach(operation -> {
+
+				ApiResponses apiResponses = operation.getResponses();
+
+				apiResponses.addApiResponse("200", createApiResponse("Sucesso!"));
+				apiResponses.addApiResponse("201", createApiResponse("Objeto Persistido!"));
+				apiResponses.addApiResponse("204", createApiResponse("Objeto Excluído!"));
+				apiResponses.addApiResponse("400", createApiResponse("Erro na Requisição!"));
+				apiResponses.addApiResponse("401", createApiResponse("Acesso Não Autorizado!"));
+				apiResponses.addApiResponse("403", createApiResponse("Acesso Proibido!"));
+				apiResponses.addApiResponse("404", createApiResponse("Objeto Não Encontrado!"));
+				apiResponses.addApiResponse("500", createApiResponse("Erro na Aplicação!"));
+
+			}));
+
+		};
+	}
+
+	private ApiResponse createApiResponse(String message) {
+
+		return new ApiResponse().description(message);
+
+	}
 }
